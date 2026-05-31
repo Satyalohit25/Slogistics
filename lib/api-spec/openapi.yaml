@@ -1,0 +1,441 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: India Supply Chain & Logistics Intelligence API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: logistics
+    description: India Supply Chain & Logistics data
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /logistics/ai-adoption:
+    get:
+      operationId: getAiAdoption
+      tags: [logistics]
+      summary: AI adoption trends in Indian logistics
+      responses:
+        "200":
+          description: AI adoption data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiAdoptionData"
+
+  /logistics/transport-modes:
+    get:
+      operationId: getTransportModes
+      tags: [logistics]
+      summary: Modal split for Indian logistics
+      responses:
+        "200":
+          description: Transport mode data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TransportMode"
+
+  /logistics/infrastructure:
+    get:
+      operationId: getInfrastructure
+      tags: [logistics]
+      summary: Ports, airports, expressways, freight hubs, manufacturing hubs with rankings
+      responses:
+        "200":
+          description: Infrastructure data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfrastructureData"
+
+  /logistics/supply-chain-networks:
+    get:
+      operationId: getSupplyChainNetworks
+      tags: [logistics]
+      summary: Key supply chain networks (live and in-progress)
+      responses:
+        "200":
+          description: Supply chain network data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SupplyChainNetwork"
+
+  /logistics/market-advantages:
+    get:
+      operationId: getMarketAdvantages
+      tags: [logistics]
+      summary: India logistics market advantages vs world
+      responses:
+        "200":
+          description: Market advantages data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarketAdvantagesData"
+
+  /logistics/companies:
+    get:
+      operationId: getCompanies
+      tags: [logistics]
+      summary: Key companies and AI tools in Indian logistics
+      responses:
+        "200":
+          description: Companies data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LogisticsCompany"
+
+  /logistics/states:
+    get:
+      operationId: getStatesAdoption
+      tags: [logistics]
+      summary: State-wise policy adoption and logistics performance index
+      responses:
+        "200":
+          description: States data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StateAdoption"
+
+  /logistics/global-comparison:
+    get:
+      operationId: getGlobalComparison
+      tags: [logistics]
+      summary: India vs global logistics comparison
+      responses:
+        "200":
+          description: Global comparison data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GlobalComparison"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    AiAdoptionTrend:
+      type: object
+      required: [year, adoptionRate, investment, companies]
+      properties:
+        year:
+          type: integer
+        adoptionRate:
+          type: number
+        investment:
+          type: number
+        companies:
+          type: integer
+
+    AiTechnology:
+      type: object
+      required: [name, adoptionPercent, useCases]
+      properties:
+        name:
+          type: string
+        adoptionPercent:
+          type: number
+        useCases:
+          type: string
+
+    AiAdoptionData:
+      type: object
+      required: [trends, technologies, marketSize, projectedMarketSize]
+      properties:
+        trends:
+          type: array
+          items:
+            $ref: "#/components/schemas/AiAdoptionTrend"
+        technologies:
+          type: array
+          items:
+            $ref: "#/components/schemas/AiTechnology"
+        marketSize:
+          type: number
+        projectedMarketSize:
+          type: number
+
+    TransportMode:
+      type: object
+      required: [mode, sharePercent, volumeMT, growthRate, color]
+      properties:
+        mode:
+          type: string
+        sharePercent:
+          type: number
+        volumeMT:
+          type: number
+        growthRate:
+          type: number
+        color:
+          type: string
+
+    Port:
+      type: object
+      required: [rank, name, state, cargoMT, type, connected, aiEnabled]
+      properties:
+        rank:
+          type: integer
+        name:
+          type: string
+        state:
+          type: string
+        cargoMT:
+          type: number
+        type:
+          type: string
+        connected:
+          type: string
+        aiEnabled:
+          type: boolean
+
+    Airport:
+      type: object
+      required: [rank, name, city, cargoMT, connected, aiEnabled]
+      properties:
+        rank:
+          type: integer
+        name:
+          type: string
+        city:
+          type: string
+        cargoMT:
+          type: number
+        connected:
+          type: string
+        aiEnabled:
+          type: boolean
+
+    Expressway:
+      type: object
+      required: [rank, name, lengthKm, states, corridors, status]
+      properties:
+        rank:
+          type: integer
+        name:
+          type: string
+        lengthKm:
+          type: number
+        states:
+          type: integer
+        corridors:
+          type: string
+        status:
+          type: string
+
+    FreightHub:
+      type: object
+      required: [rank, name, state, type, capacityMT, status, connected]
+      properties:
+        rank:
+          type: integer
+        name:
+          type: string
+        state:
+          type: string
+        type:
+          type: string
+        capacityMT:
+          type: number
+        status:
+          type: string
+        connected:
+          type: string
+
+    ManufacturingHub:
+      type: object
+      required: [rank, name, state, sector, exportValueB, supplyChainContrib]
+      properties:
+        rank:
+          type: integer
+        name:
+          type: string
+        state:
+          type: string
+        sector:
+          type: string
+        exportValueB:
+          type: number
+        supplyChainContrib:
+          type: number
+
+    InfrastructureData:
+      type: object
+      required: [ports, airports, expressways, freightHubs, manufacturingHubs]
+      properties:
+        ports:
+          type: array
+          items:
+            $ref: "#/components/schemas/Port"
+        airports:
+          type: array
+          items:
+            $ref: "#/components/schemas/Airport"
+        expressways:
+          type: array
+          items:
+            $ref: "#/components/schemas/Expressway"
+        freightHubs:
+          type: array
+          items:
+            $ref: "#/components/schemas/FreightHub"
+        manufacturingHubs:
+          type: array
+          items:
+            $ref: "#/components/schemas/ManufacturingHub"
+
+    SupplyChainNetwork:
+      type: object
+      required: [name, status, valueBUSD, type, states, keyNodes, completion]
+      properties:
+        name:
+          type: string
+        status:
+          type: string
+        valueBUSD:
+          type: number
+        type:
+          type: string
+        states:
+          type: integer
+        keyNodes:
+          type: string
+        completion:
+          type: number
+
+    MarketAdvantage:
+      type: object
+      required: [category, indiaScore, worldAvg, rank, description]
+      properties:
+        category:
+          type: string
+        indiaScore:
+          type: number
+        worldAvg:
+          type: number
+        rank:
+          type: integer
+        description:
+          type: string
+
+    MarketStat:
+      type: object
+      required: [label, value, unit, trend]
+      properties:
+        label:
+          type: string
+        value:
+          type: number
+        unit:
+          type: string
+        trend:
+          type: string
+
+    MarketAdvantagesData:
+      type: object
+      required: [advantages, stats, lpiScore, lpiRank]
+      properties:
+        advantages:
+          type: array
+          items:
+            $ref: "#/components/schemas/MarketAdvantage"
+        stats:
+          type: array
+          items:
+            $ref: "#/components/schemas/MarketStat"
+        lpiScore:
+          type: number
+        lpiRank:
+          type: integer
+
+    LogisticsCompany:
+      type: object
+      required: [name, segment, aiTools, aiUseCase, revenue, aiAdoptionLevel]
+      properties:
+        name:
+          type: string
+        segment:
+          type: string
+        aiTools:
+          type: string
+        aiUseCase:
+          type: string
+        revenue:
+          type: number
+        aiAdoptionLevel:
+          type: string
+
+    StateAdoption:
+      type: object
+      required: [state, lpi, policyScore, infrastructure, aiAdoption, warehouseCapacity, rank]
+      properties:
+        state:
+          type: string
+        lpi:
+          type: number
+        policyScore:
+          type: number
+        infrastructure:
+          type: number
+        aiAdoption:
+          type: number
+        warehouseCapacity:
+          type: number
+        rank:
+          type: integer
+
+    GlobalComparison:
+      type: object
+      required: [country, lpiRank, lpiScore, marketSizeB, growthRate, aiAdoption, infrastructure]
+      properties:
+        country:
+          type: string
+        lpiRank:
+          type: integer
+        lpiScore:
+          type: number
+        marketSizeB:
+          type: number
+        growthRate:
+          type: number
+        aiAdoption:
+          type: number
+        infrastructure:
+          type: number
